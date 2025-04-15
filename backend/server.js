@@ -1,26 +1,17 @@
-import express from 'express';
-import cors from 'cors';
+import http from 'http';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
-import errorHandler from './middlewares/errorHandler.js';
-import authRoutes from './routes/authRoutes.js';
-
+import initSocket from './config/socket.js';
+import app from './app.js';
 
 dotenv.config();
-const app = express();
 
 connectDB();
-app.use(cors());
-app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/auth', authRoutes);
+const server = http.createServer(app);
+initSocket(server);
 
-app.get('/', (req, res) => {
-  res.send('API is running....');
-});
-
-app.use(errorHandler);
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
