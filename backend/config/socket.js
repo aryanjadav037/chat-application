@@ -1,4 +1,3 @@
-
 import { Server } from 'socket.io';
 
 const users = new Map();
@@ -6,9 +5,9 @@ const users = new Map();
 const initSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: 'http://localhost:5005',
-      methods: ['GET', 'POST']
-    }
+      origin: 'http://localhost:5173',
+      methods: ['GET', 'POST'],
+    },
   });
 
   io.on('connection', (socket) => {
@@ -16,9 +15,15 @@ const initSocket = (server) => {
 
     socket.on('join', (userId) => {
       users.set(userId, socket.id);
-      console.log(`User ${userId} joined with socket ID: ${socket.id}`);
+      console.log(`User ${userId} registered with socket ID: ${socket.id}`);
     });
 
+    socket.on('join-group', ({ groupId }) => {
+      socket.join(groupId);
+      console.log(`Socket ${socket.id} joined group ${groupId}`);
+    });
+
+    // Private message
     socket.on('send-message', ({ senderId, receiverId, message }) => {
       const receiverSocketId = users.get(receiverId);
       if (receiverSocketId) {
@@ -26,6 +31,12 @@ const initSocket = (server) => {
       }
     });
 
+    // Group message
+    socket.on('group-message', ({ senderId, groupId, message }) => {
+      socket.to(groupId).emit('receive-group-message', { senderId, groupId, message });
+    });
+
+    // Handle disconnect
     socket.on('disconnect', () => {
       for (const [userId, socketId] of users.entries()) {
         if (socketId === socket.id) {
@@ -36,6 +47,8 @@ const initSocket = (server) => {
       }
     });
   });
+
+  return io; // Return the io instance for potential use elsewhere
 };
 
 export default initSocket;
