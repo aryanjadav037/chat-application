@@ -4,12 +4,12 @@ import GoogleController from '../controllers/google.js';
 import AuthService from '../service/authService.js';
 import TokenService from '../service/tokenService.js';
 import GoogleService from '../service/googleService.js';
-import UserModel from '../models/userModel.js';
+import User from '../models/userModel.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 const tokenService = new TokenService(process.env.SECRET_KEY, '1h');
-const authService = new AuthService(UserModel, tokenService);
+const authService = new AuthService(User, tokenService);
 const googleService = new GoogleService(authService);
 const signupController = new SignupController(authService);
 const loginController = new LoginController(authService);

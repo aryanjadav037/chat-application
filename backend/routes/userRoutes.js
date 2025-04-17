@@ -1,10 +1,10 @@
 import express from 'express';
 import UserController from '../controllers/userController.js';
 import UserService from '../service/userService.js';
-import userModel from '../models/userModel.js';
+import User from '../models/userModel.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 
-const userService = new UserService(userModel);
+const userService = new UserService(User);
 const userController = new UserController(userService);
 const userRoutes = express.Router();
 
