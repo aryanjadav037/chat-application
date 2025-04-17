@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { z } from "zod";
 
 const userValidationSchema = z.object({
-  Username: z.string().min(3, "Username must be at least 3 characters long"),
+  username: z.string().min(3, "Username must be at least 3 characters long"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
   dob: z.date().optional(),
@@ -11,7 +11,7 @@ const userValidationSchema = z.object({
 
 const UserSchema = new mongoose.Schema(
   {
-    Username: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true }, 
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     dob: { type: Date, required: false },
