@@ -11,5 +11,6 @@ const userRoutes = express.Router();
 userRoutes.get('/me', authMiddleware, (req, res, next) => userController.getProfile(req, res, next));
 userRoutes.put('/me', authMiddleware, (req, res, next) => userController.updateProfile(req, res, next));
 userRoutes.delete('/me', authMiddleware, (req, res, next) => userController.deleteAccount(req, res, next));
+userRoutes.get('/search', authMiddleware, (req, res, next) => userController.searchUsers(req, res, next));
 
 export default userRoutes;

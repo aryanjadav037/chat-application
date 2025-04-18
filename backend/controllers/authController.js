@@ -7,10 +7,10 @@ export class SignupController {
 
     async signup(req, res, next) {
         try {
-            const { Username, Full_Name, email, password, dob, role } = req.body;
+            const { username, email, password, dob, role } = req.body;
 
             const result = await this.authService.register(
-                Username, Full_Name, email, password, dob, role
+                username, email, password, dob, role
             );
 
             res.status(201).json({

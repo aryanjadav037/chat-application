@@ -25,5 +25,17 @@ export default class UserService {
       if (!user) throw new Error('User not found or already deleted');
       return { message: 'User deleted successfully' };
     }
+
+    // async searchUsers(username) {
+    //   const users = await this.userModel.find({ username: { $regex: username, $options: 'i' } }).select('-password');
+    //   if (!users.length) throw new Error('No users found');
+    //   return users;
+    // }
+
+    async searchUsers() {
+      const users = await this.userModel.find().select('-password');
+      if (!users.length) throw new Error('No users found');
+      return users;
+    }
   }
   

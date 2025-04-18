@@ -30,5 +30,14 @@ export default class UserController {
         res.status(404).json({ success: false, message: error.message });
       }
     }
+
+    async searchUsers(req, res) {
+      try {
+        const users = await this.userService.searchUsers(req.query.username);
+        res.status(200).json({ success: true, data: users });
+      } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+      }
+    }
   }
   

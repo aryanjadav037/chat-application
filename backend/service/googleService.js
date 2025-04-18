@@ -26,12 +26,11 @@ class GoogleService {
         const oauth2 = google.oauth2({ version: "v2", auth: this.googleClient });
         const { data } = await oauth2.userinfo.get();
 
-        const Username = data.name;
-        const Full_Name = data.name;
+        const username = data.name;
         const email = data.email;
         const password = "google";
 
-        const user = await this.authService.registerGoogle(Username, Full_Name, email, password);
+        const user = await this.authService.registerGoogle(username, email, password);
         return user;
     }
 }

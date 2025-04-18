@@ -9,7 +9,7 @@ class AuthService {
     this.tokenService = tokenService;
   }
 
-  async register(Username, Full_Name, email, password, dob, role) {
+  async register(username, email, password, dob, role) {
     const existingUser = await this.userModel.findOne({ email });
 
     if (existingUser) {
@@ -20,8 +20,7 @@ class AuthService {
     const verificationToken = crypto.randomBytes(32).toString('hex');
 
     const newUser = await this.userModel.create({
-      Username,
-      Full_Name,
+      username,
       email,
       password: hashedPassword,
       dob,
@@ -49,7 +48,7 @@ class AuthService {
     return this.tokenService.generateToken(user);
   }
   
-  async registerGoogle(Username, Full_Name, email, password, dob, role) {
+  async registerGoogle(username, email, password, dob, role) {
     const existingUser = await this.userModel.findOne({ email });
 
     if (existingUser) {
@@ -60,8 +59,7 @@ class AuthService {
     const verificationToken = crypto.randomBytes(32).toString('hex');
 
     const newUser = await this.userModel.create({
-      Username,
-      Full_Name,
+      username,
       email,
       password: hashedPassword,
       dob,
